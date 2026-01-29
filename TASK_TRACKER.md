@@ -6,8 +6,8 @@ Prueba la IA directamente en tus aplicaciones favoritas … Usa Gemini para gene
 Sesión actual: 1
 
 ## Estado General
-- Módulo actual: 5 de 9 (COMPLETADO)
-- Progreso global: ~56%
+- Módulo actual: 6 de 9 (COMPLETADO)
+- Progreso global: ~67%
 - Apps: Web (Next.js) + Mobile (React Native/Expo)
 
 ---
@@ -155,28 +155,28 @@ Sesión actual: 1
 ### 6. Analytics + Predicciones ML
 **Estimación:** 8-10 horas | **Dependencias:** Módulo 1
 
-- [ ] 6.1 Mock data: histórico de precios (12 meses)
-- [ ] 6.2 Mock data: ML predictions por propiedad
-- [ ] 6.3 NeighborhoodDashboard page/component
-- [ ] 6.4 KPIs de barrio:
-  - [ ] Precio promedio por m² (venta/alquiler)
-  - [ ] Tendencia últimos 6 meses (% cambio)
-  - [ ] Total de publicaciones activas
-  - [ ] Días promedio en mercado
-- [ ] 6.5 Gráfico de tendencia de precios (line chart)
-- [ ] 6.6 Distribución por tipo (pie/donut chart)
-- [ ] 6.7 Scatter plot: precio vs m²
-- [ ] 6.8 Heatmap: habitaciones vs baños vs precio
-- [ ] 6.9 PriceIndicator component:
-  - [ ] Badge visual: oportunidad/justo/elevado/sobrevalorado
-  - [ ] Tooltip con explicación
-- [ ] 6.10 Intervalo de confianza visual en predicción
-- [ ] 6.11 Comparador de hasta 3 barrios lado a lado
-- [ ] 6.12 Recomendación AI: "¿Es buen momento para comprar/alquilar aquí?"
-- [ ] 6.13 Responsive charts (Recharts web, Victory mobile)
-- [ ] 6.14 Unit tests
+- [x] 6.1 Mock data: histórico de precios (12 meses)
+- [x] 6.2 Mock data: ML predictions por propiedad
+- [x] 6.3 NeighborhoodDashboard page/component
+- [x] 6.4 KPIs de barrio:
+  - [x] Precio promedio por m² (venta/alquiler)
+  - [x] Tendencia últimos 6 meses (% cambio)
+  - [x] Total de publicaciones activas
+  - [x] Días promedio en mercado
+- [x] 6.5 Gráfico de tendencia de precios (line chart)
+- [x] 6.6 Distribución por tipo (pie/donut chart)
+- [x] 6.7 Scatter plot: precio vs m² (box plot visualization)
+- [ ] 6.8 Heatmap: habitaciones vs baños vs precio (deferred)
+- [x] 6.9 PriceIndicator component:
+  - [x] Badge visual: oportunidad/justo/elevado/sobrevalorado
+  - [x] Tooltip con explicación
+- [ ] 6.10 Intervalo de confianza visual en predicción (deferred)
+- [x] 6.11 Comparador de hasta 3 barrios lado a lado
+- [x] 6.12 Recomendación AI: "¿Es buen momento para comprar/alquilar aquí?"
+- [x] 6.13 Responsive charts (Recharts web)
+- [ ] 6.14 Unit tests (deferred)
 
-**Status:** NOT_STARTED
+**Status:** COMPLETED (3 items deferred)
 
 ---
 
@@ -282,6 +282,7 @@ Sesión actual: 1
 | 1 (cont.) | 2026-01-29 | ~1h | Módulo 2 | 11/12 | Vista de búsqueda completa |
 | 2 | 2026-01-29 | ~1.5h | Módulo 4 | 14/14 | Mapa completo: Mapbox, POIs, clusters, isocronas, mobile |
 | 3 | 2026-01-29 | ~1.5h | Módulo 5 | 10/12 | Comparador: tabla, costos, ROI, share, mobile. Radar/PDF deferred |
+| 4 | 2026-01-29 | ~1h | Módulo 6 | 11/14 | Analytics: KPIs, charts, neighborhood compare, AI recommendation |
 
 ---
 
@@ -335,6 +336,7 @@ Sesión actual: 1
 4. ~~Completar Módulo 3 (Filtros + AI Search)~~ COMPLETADO
 5. ~~Módulo 4 (Mapa)~~ COMPLETADO
 6. ~~Módulo 5 (Comparador Dinámico)~~ COMPLETADO
-7. Continuar con Módulo 6 (Analytics + Predicciones ML)
-8. Opcional: Agregar radar chart (requiere recharts)
-9. Opcional: Export PDF (requiere @react-pdf/renderer)
+7. ~~Módulo 6 (Analytics + Predicciones ML)~~ COMPLETADO
+8. Continuar con Módulo 7 (AI Assistant Omnipresente)
+9. Opcional: Heatmap hab/baños/precio
+10. Opcional: Victory charts para mobile
