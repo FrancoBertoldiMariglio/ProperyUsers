@@ -1,0 +1,42 @@
+{
+  "name": "@propery/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf .next .turbo node_modules"
+  },
+  "dependencies": {
+    "@propery/ai": "workspace:*",
+    "@propery/api-client": "workspace:*",
+    "@propery/core": "workspace:*",
+    "@propery/ui": "workspace:*",
+    "@tanstack/react-query": "^5.62.0",
+    "@tanstack/react-virtual": "^3.11.0",
+    "@turf/turf": "^7.3.3",
+    "lucide-react": "^0.468.0",
+    "mapbox-gl": "^3.18.1",
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "supercluster": "^8.0.1",
+    "zustand": "^5.0.2",
+    "recharts": "^2.15.0"
+  },
+  "devDependencies": {
+    "@propery/config": "workspace:*",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/mapbox-gl": "^3.4.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/supercluster": "^7.1.3",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.2"
+  }
+}
