@@ -6,8 +6,8 @@ Prueba la IA directamente en tus aplicaciones favoritas … Usa Gemini para gene
 Sesión actual: 1
 
 ## Estado General
-- Módulo actual: 2 de 9 (COMPLETADO)
-- Progreso global: 22%
+- Módulo actual: 3 de 9 (COMPLETADO)
+- Progreso global: 33%
 - Apps: Web (Next.js) + Mobile (React Native/Expo)
 
 ---
@@ -65,32 +65,32 @@ Sesión actual: 1
 ### 3. Filtros Avanzados + AI Search
 **Estimación:** 6-8 horas | **Dependencias:** Módulos 1, 2
 
-- [ ] 3.1 Zustand store: `filterStore` con persistencia
-- [ ] 3.2 FilterPanel component (colapsable, sticky)
-- [ ] 3.3 Filtros básicos:
-  - [ ] Tipo (depto, casa, PH, terreno)
-  - [ ] Operación (venta, alquiler)
-  - [ ] Rango de precio (slider dual)
-  - [ ] Rango de m² (slider dual)
-  - [ ] Habitaciones (1, 2, 3, 4+)
-  - [ ] Baños (1, 2, 3+)
-  - [ ] Cochera (sí/no/cantidad)
-  - [ ] Antigüedad (a estrenar, <5 años, etc.)
-- [ ] 3.4 Filtros de ubicación:
-  - [ ] Multi-select de barrios
-  - [ ] Radio desde punto (mapa)
-- [ ] 3.5 Filtros por amenities (pileta, sum, gimnasio, etc.)
-- [ ] 3.6 Filtros por POIs ("cerca de subte", "a 500m de escuela")
-- [ ] 3.7 Barra de búsqueda semántica con AI
-- [ ] 3.8 Historial de búsquedas recientes (últimas 10)
-- [ ] 3.9 Búsquedas guardadas (templates con nombre)
-- [ ] 3.10 Filtro especial "Solo oportunidades" (ML prediction)
-- [ ] 3.11 FilterChips: tags de filtros activos con remove
-- [ ] 3.12 Contador de resultados en tiempo real
-- [ ] 3.13 Mobile: Bottom sheet para filtros
-- [ ] 3.14 Unit tests
+- [x] 3.1 Zustand store: `filterStore` con persistencia
+- [x] 3.2 FilterPanel component (colapsable, sticky)
+- [x] 3.3 Filtros básicos:
+  - [x] Tipo (depto, casa, PH, terreno)
+  - [x] Operación (venta, alquiler)
+  - [x] Rango de precio (slider dual)
+  - [x] Rango de m² (slider dual)
+  - [x] Habitaciones (1, 2, 3, 4+)
+  - [x] Baños (1, 2, 3+)
+  - [x] Cochera (sí/no/cantidad)
+  - [x] Antigüedad (a estrenar, <5 años, etc.)
+- [x] 3.4 Filtros de ubicación:
+  - [x] Multi-select de barrios
+  - [ ] Radio desde punto (mapa) - pendiente para Módulo 4
+- [x] 3.5 Filtros por amenities (pileta, sum, gimnasio, etc.)
+- [ ] 3.6 Filtros por POIs ("cerca de subte", "a 500m de escuela") - pendiente para Módulo 4
+- [x] 3.7 Barra de búsqueda semántica con AI
+- [x] 3.8 Historial de búsquedas recientes (últimas 10)
+- [x] 3.9 Búsquedas guardadas (templates con nombre)
+- [x] 3.10 Filtro especial "Solo oportunidades" (ML prediction)
+- [x] 3.11 FilterChips: tags de filtros activos con remove
+- [x] 3.12 Contador de resultados en tiempo real
+- [x] 3.13 Mobile: Bottom sheet para filtros
+- [ ] 3.14 Unit tests (pendiente)
 
-**Status:** NOT_STARTED
+**Status:** COMPLETED
 
 ---
 
