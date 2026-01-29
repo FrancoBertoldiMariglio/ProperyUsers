@@ -6,8 +6,8 @@ Prueba la IA directamente en tus aplicaciones favoritas … Usa Gemini para gene
 Sesión actual: 1
 
 ## Estado General
-- Módulo actual: 1 de 9 (COMPLETADO)
-- Progreso global: 11%
+- Módulo actual: 2 de 9 (COMPLETADO)
+- Progreso global: 22%
 - Apps: Web (Next.js) + Mobile (React Native/Expo)
 
 ---
@@ -40,25 +40,25 @@ Sesión actual: 1
 ### 2. Vista de Búsqueda de Propiedades
 **Estimación:** 6-8 horas | **Dependencias:** Módulo 1
 
-- [ ] 2.1 Definir tipos TypeScript: Property, PropertySource, PricePrediction
-- [ ] 2.2 Crear mock data: 50+ propiedades realistas de CABA
-- [ ] 2.3 Crear mock data: barrios con polígonos y stats
-- [ ] 2.4 PropertyCard component (web + mobile)
-  - [ ] Imagen con lazy loading
-  - [ ] Precio + currency
-  - [ ] Badge de fuente (ZonaProp, ML, etc.)
-  - [ ] Badge de oportunidad/fair/caro
-  - [ ] Quick actions (comparar, favorito, compartir)
-- [ ] 2.5 PropertyList con infinite scroll (TanStack Virtual)
-- [ ] 2.6 PropertyList mobile con FlatList optimizado
-- [ ] 2.7 Vista dual sincronizada: Lista + Mini-mapa (web)
-- [ ] 2.8 Ordenamiento: precio, fecha, relevancia, oportunidad
-- [ ] 2.9 Skeleton loading y empty states
-- [ ] 2.10 Responsive design: mobile/tablet/desktop
-- [ ] 2.11 Hook `useProperties` con TanStack Query
-- [ ] 2.12 Unit tests componentes críticos
+- [x] 2.1 Definir tipos TypeScript: Property, PropertySource, PricePrediction
+- [x] 2.2 Crear mock data: 50+ propiedades realistas de CABA
+- [x] 2.3 Crear mock data: barrios con polígonos y stats
+- [x] 2.4 PropertyCard component (web + mobile)
+  - [x] Imagen con lazy loading
+  - [x] Precio + currency
+  - [x] Badge de fuente (ZonaProp, ML, etc.)
+  - [x] Badge de oportunidad/fair/caro
+  - [x] Quick actions (comparar, favorito, compartir)
+- [x] 2.5 PropertyList con infinite scroll (TanStack Virtual)
+- [x] 2.6 PropertyList mobile con FlatList optimizado
+- [x] 2.7 Vista dual sincronizada: Lista + Mini-mapa (web)
+- [x] 2.8 Ordenamiento: precio, fecha, relevancia, oportunidad
+- [x] 2.9 Skeleton loading y empty states
+- [x] 2.10 Responsive design: mobile/tablet/desktop
+- [x] 2.11 Hook `useProperties` con TanStack Query
+- [ ] 2.12 Unit tests componentes críticos (pendiente)
 
-**Status:** NOT_STARTED
+**Status:** COMPLETED
 
 ---
 
@@ -275,6 +275,7 @@ Sesión actual: 1
 | Sesión | Fecha | Duración | Módulos | Tareas Completadas | Notas |
 |--------|-------|----------|---------|-------------------|-------|
 | 1 | 2026-01-29 | ~2h | Módulo 1 | 15/15 | Setup completo del monorepo |
+| 1 (cont.) | 2026-01-29 | ~1h | Módulo 2 | 11/12 | Vista de búsqueda completa |
 
 ---
 
@@ -300,6 +301,8 @@ Sesión actual: 1
 - tailwindcss: ^4.0.0
 - zustand: ^5.0.2
 - @tanstack/react-query: ^5.62.0
+- @tanstack/react-virtual: ^3.11.0
+- lucide-react: ^0.468.0
 
 ---
 
@@ -322,6 +325,7 @@ Sesión actual: 1
 ## Próximos Pasos
 1. ~~Iniciar Sesión 1~~ COMPLETADO
 2. ~~Completar Módulo 1 (Setup)~~ COMPLETADO
-3. Continuar con Módulo 2 (Vista de Búsqueda de Propiedades)
-4. Implementar PropertyCard y PropertyList components
-5. Crear página de búsqueda con filtros básicos
+3. ~~Completar Módulo 2 (Vista de Búsqueda)~~ COMPLETADO
+4. Continuar con Módulo 3 (Filtros Avanzados + AI Search)
+5. Implementar FilterPanel con más opciones
+6. Agregar búsqueda semántica con AI
