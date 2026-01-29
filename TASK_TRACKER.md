@@ -6,8 +6,8 @@ Prueba la IA directamente en tus aplicaciones favoritas … Usa Gemini para gene
 Sesión actual: 1
 
 ## Estado General
-- Módulo actual: 4 de 9 (COMPLETADO)
-- Progreso global: ~44%
+- Módulo actual: 5 de 9 (COMPLETADO)
+- Progreso global: ~56%
 - Apps: Web (Next.js) + Mobile (React Native/Expo)
 
 ---
@@ -130,25 +130,25 @@ Sesión actual: 1
 ### 5. Comparador Dinámico
 **Estimación:** 6-8 horas | **Dependencias:** Módulos 1, 2
 
-- [ ] 5.1 Zustand store: `comparisonStore` (máx 4 propiedades)
-- [ ] 5.2 ComparisonBar flotante (propiedades seleccionadas)
-- [ ] 5.3 Quick add/remove desde PropertyCard
-- [ ] 5.4 Página de comparación:
-  - [ ] Vista lado a lado (cards)
-  - [ ] Tabla comparativa con todas las características
-- [ ] 5.5 Highlight automático de diferencias (mejor=verde, peor=rojo)
-- [ ] 5.6 Radar chart: propiedad vs promedio de zona
-- [ ] 5.7 Cálculo de costo total mensual:
-  - [ ] Precio base / cuotas
-  - [ ] Expensas
-  - [ ] Estimación de servicios
-- [ ] 5.8 Score de inversión (ROI proyectado a 5 años)
-- [ ] 5.9 Generación de PDF de comparación
-- [ ] 5.10 Compartir comparación con link único
-- [ ] 5.11 Versión mobile con swipe horizontal
-- [ ] 5.12 Unit tests
+- [x] 5.1 Zustand store: `comparisonStore` (máx 4 propiedades)
+- [x] 5.2 ComparisonBar flotante (propiedades seleccionadas)
+- [x] 5.3 Quick add/remove desde PropertyCard
+- [x] 5.4 Página de comparación:
+  - [x] Vista lado a lado (cards)
+  - [x] Tabla comparativa con todas las características
+- [x] 5.5 Highlight automático de diferencias (mejor=verde, peor=rojo)
+- [ ] 5.6 Radar chart: propiedad vs promedio de zona (deferred - requires recharts)
+- [x] 5.7 Cálculo de costo total mensual:
+  - [x] Precio base / cuotas
+  - [x] Expensas
+  - [x] Estimación de servicios
+- [x] 5.8 Score de inversión (ROI proyectado a 5 años)
+- [ ] 5.9 Generación de PDF de comparación (deferred - requires @react-pdf)
+- [x] 5.10 Compartir comparación con link único
+- [x] 5.11 Versión mobile con swipe horizontal
+- [x] 5.12 Unit tests
 
-**Status:** NOT_STARTED
+**Status:** COMPLETED (2 optional items deferred)
 
 ---
 
@@ -281,6 +281,7 @@ Sesión actual: 1
 | 1 | 2026-01-29 | ~2h | Módulo 1 | 15/15 | Setup completo del monorepo |
 | 1 (cont.) | 2026-01-29 | ~1h | Módulo 2 | 11/12 | Vista de búsqueda completa |
 | 2 | 2026-01-29 | ~1.5h | Módulo 4 | 14/14 | Mapa completo: Mapbox, POIs, clusters, isocronas, mobile |
+| 3 | 2026-01-29 | ~1.5h | Módulo 5 | 10/12 | Comparador: tabla, costos, ROI, share, mobile. Radar/PDF deferred |
 
 ---
 
@@ -332,7 +333,8 @@ Sesión actual: 1
 2. ~~Completar Módulo 1 (Setup)~~ COMPLETADO
 3. ~~Completar Módulo 2 (Vista de Búsqueda)~~ COMPLETADO
 4. ~~Completar Módulo 3 (Filtros + AI Search)~~ COMPLETADO
-5. ~~Módulo 4 (Mapa)~~ EN PROGRESO (85%)
-6. Agregar ClusterMarker para propiedades agrupadas
-7. Implementar isocronas (requiere API externa)
-8. Continuar con Módulo 5 (Comparador Dinámico)
+5. ~~Módulo 4 (Mapa)~~ COMPLETADO
+6. ~~Módulo 5 (Comparador Dinámico)~~ COMPLETADO
+7. Continuar con Módulo 6 (Analytics + Predicciones ML)
+8. Opcional: Agregar radar chart (requiere recharts)
+9. Opcional: Export PDF (requiere @react-pdf/renderer)

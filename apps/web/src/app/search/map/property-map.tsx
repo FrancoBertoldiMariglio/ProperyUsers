@@ -657,8 +657,8 @@ export function PropertyMap({
 
     return () => {
       map.current?.off('click', handleClick)
-      if (!isDrawing) {
-        map.current?.getCanvas().style.cursor = ''
+      if (!isDrawing && map.current) {
+        map.current.getCanvas().style.cursor = ''
       }
     }
   }, [isSelectingIsochronePoint, isMapLoaded, isDrawing])

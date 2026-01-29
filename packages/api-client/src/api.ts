@@ -111,6 +111,11 @@ export async function getProperty(id: string): Promise<Property | null> {
   return mockProperties.find((p) => p.id === id) || null
 }
 
+export async function getPropertiesByIds(ids: string[]): Promise<Property[]> {
+  await delay(200 + Math.random() * 100)
+  return mockProperties.filter((p) => ids.includes(p.id))
+}
+
 export async function getNeighborhoods(): Promise<Neighborhood[]> {
   await delay(200)
   return mockNeighborhoods

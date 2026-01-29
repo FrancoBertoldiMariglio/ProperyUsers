@@ -16,6 +16,10 @@
     "./native": {
       "types": "./src/native/index.ts",
       "default": "./src/native/index.ts"
+    },
+    "./shared": {
+      "types": "./src/shared/utils.ts",
+      "default": "./src/shared/utils.ts"
     }
   },
   "scripts": {

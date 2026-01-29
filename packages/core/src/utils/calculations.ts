@@ -134,6 +134,168 @@ interface RentVsBuyResult {
   recommendation: 'buy' | 'rent' | 'neutral'
 }
 
+// Investment Score Calculation
+interface InvestmentScoreParams {
+  predictedPriceDiff: number | undefined
+  neighborhood: string
+  amenitiesCount: number
+  pricePerM2: number
+  predictionConfidence: number | undefined
+}
+
+interface InvestmentScoreResult {
+  total: number
+  priceFairness: number
+  locationPremium: number
+  amenitiesValue: number
+  roiProjection: number
+  confidence: number
+}
+
+const PREMIUM_NEIGHBORHOODS = [
+  'Palermo',
+  'Recoleta',
+  'Belgrano',
+  'Puerto Madero',
+  'Núñez',
+  'Las Cañitas',
+]
+
+const MID_TIER_NEIGHBORHOODS = [
+  'Caballito',
+  'Villa Urquiza',
+  'Colegiales',
+  'Villa Crespo',
+  'Almagro',
+  'San Telmo',
+]
+
+export function calculateInvestmentScore(params: InvestmentScoreParams): InvestmentScoreResult {
+  const { predictedPriceDiff, neighborhood, amenitiesCount, pricePerM2, predictionConfidence } = params
+
+  // Price fairness score (based on ML prediction)
+  let priceFairness = 50
+  if (predictedPriceDiff !== undefined) {
+    const diff = predictedPriceDiff
+    if (diff <= -15) priceFairness = 95
+    else if (diff <= -10) priceFairness = 85
+    else if (diff <= -5) priceFairness = 75
+    else if (diff <= 0) priceFairness = 65
+    else if (diff <= 5) priceFairness = 55
+    else if (diff <= 10) priceFairness = 40
+    else priceFairness = 25
+  }
+
+  // Location premium score
+  let locationPremium = 50
+  if (PREMIUM_NEIGHBORHOODS.some((n) => neighborhood.includes(n))) {
+    locationPremium = 85
+  } else if (MID_TIER_NEIGHBORHOODS.some((n) => neighborhood.includes(n))) {
+    locationPremium = 70
+  }
+
+  // Amenities value score
+  const amenitiesValue = Math.min(30 + amenitiesCount * 7, 95)
+
+  // ROI projection (based on price/m²)
+  let roiProjection = 50
+  if (pricePerM2 > 0) {
+    if (pricePerM2 < 2000) roiProjection = 90
+    else if (pricePerM2 < 2500) roiProjection = 80
+    else if (pricePerM2 < 3000) roiProjection = 70
+    else if (pricePerM2 < 3500) roiProjection = 60
+    else if (pricePerM2 < 4000) roiProjection = 45
+    else roiProjection = 30
+  }
+
+  // Confidence
+  const confidence = predictionConfidence !== undefined
+    ? Math.round(predictionConfidence * 100)
+    : 50
+
+  // Total score (weighted average)
+  const total = Math.round(
+    priceFairness * 0.35 +
+    locationPremium * 0.25 +
+    amenitiesValue * 0.15 +
+    roiProjection * 0.25
+  )
+
+  return {
+    total,
+    priceFairness,
+    locationPremium,
+    amenitiesValue,
+    roiProjection,
+    confidence,
+  }
+}
+
+// Monthly Cost Estimation
+interface MonthlyCostParams {
+  isRent: boolean
+  price: number
+  currency: 'USD' | 'ARS'
+  expenses: number | null
+  coveredArea: number
+  amenitiesCount: number
+  loanTermYears?: number
+  downPaymentPercent?: number
+}
+
+interface MonthlyCostResult {
+  basePayment: number
+  expenses: number
+  utilities: number
+  total: number
+}
+
+const USD_TO_ARS = 1100
+
+export function calculateMonthlyCost(params: MonthlyCostParams): MonthlyCostResult {
+  const {
+    isRent,
+    price,
+    currency,
+    expenses,
+    coveredArea,
+    amenitiesCount,
+    loanTermYears = 20,
+    downPaymentPercent = 30,
+  } = params
+
+  let basePayment: number
+  if (isRent) {
+    basePayment = currency === 'USD' ? price * USD_TO_ARS : price
+  } else {
+    const priceARS = currency === 'USD' ? price * USD_TO_ARS : price
+    const loanAmount = priceARS * (1 - downPaymentPercent / 100)
+    const annualRate = 0.085
+    const monthlyRate = annualRate / 12
+    const numPayments = loanTermYears * 12
+
+    basePayment = Math.round(
+      (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, numPayments)) /
+      (Math.pow(1 + monthlyRate, numPayments) - 1)
+    )
+  }
+
+  const expensesValue = expenses || 0
+
+  // Estimate utilities
+  const baseUtilities = 35000
+  const areaFactor = coveredArea / 50
+  const amenitiesCost = amenitiesCount * 2000
+  const utilities = Math.round(baseUtilities * areaFactor + amenitiesCost)
+
+  return {
+    basePayment,
+    expenses: expensesValue,
+    utilities,
+    total: basePayment + expensesValue + utilities,
+  }
+}
+
 export function analyzeRentVsBuy(params: RentVsBuyParams): RentVsBuyResult {
   const {
     monthlyRent,
