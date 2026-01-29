@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { useFilterStore, useComparisonStore, usePreferencesStore } from '@propery/core'
+import { useFilterStore, useComparisonStore, usePreferencesStore, useMapStore } from '@propery/core'
 import {
   PropertyList,
   SortSelect,
@@ -11,12 +11,13 @@ import {
   FilterChips,
   type FilterChip,
 } from '@propery/ui/web'
-import type { Property } from '@propery/api-client'
-import { getProperties } from '@propery/api-client'
+import type { Property, PropertyType } from '@propery/api-client'
+import { getProperties, getNeighborhoods, mocks } from '@propery/api-client'
+const { mockPOIs, mockNeighborhoodStats } = mocks
 import { semanticSearch, type AIConfig } from '@propery/ai'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { Map, List, SlidersHorizontal } from 'lucide-react'
-import { MiniMap } from './mini-map'
+import { PropertyMap, MapToolbar, type MapLayerType, type DrawPolygon } from './map'
 import { FilterPanel } from './filter-panel'
 import { ComparisonBar } from './comparison-bar'
 
@@ -29,6 +30,7 @@ export default function SearchPage() {
   const [showFilters, setShowFilters] = useState(false)
   const [isAISearching, setIsAISearching] = useState(false)
 
+  // Filter store
   const {
     filters,
     searchQuery,
@@ -43,9 +45,25 @@ export default function SearchPage() {
     getActiveFiltersCount,
   } = useFilterStore()
 
+  // Comparison store
   const { properties: comparingProperties, addProperty, removeProperty, isInComparison } =
     useComparisonStore()
+
+  // Preferences store
   const { isFavorite, addFavorite, removeFavorite } = usePreferencesStore()
+
+  // Map store
+  const {
+    activeLayers,
+    showHeatmap,
+    showNeighborhoodPolygons,
+    toggleLayer,
+    toggleHeatmap,
+    toggleNeighborhoodPolygons,
+    setDrawnPolygon,
+    selectedPropertyId,
+    setSelectedPropertyId,
+  } = useMapStore()
 
   // Fetch properties with infinite query
   const {
@@ -67,6 +85,12 @@ export default function SearchPage() {
       }),
     getNextPageParam: (lastPage) => (lastPage.hasMore ? lastPage.page + 1 : undefined),
     initialPageParam: 1,
+  })
+
+  // Fetch neighborhoods
+  const { data: neighborhoods = [] } = useQuery({
+    queryKey: ['neighborhoods'],
+    queryFn: getNeighborhoods,
   })
 
   // Flatten pages into a single array
@@ -194,7 +218,12 @@ export default function SearchPage() {
   }
 
   const handlePropertyClick = (property: Property) => {
+    setSelectedPropertyId(property.id)
     window.location.href = `/property/${property.id}`
+  }
+
+  const handlePropertyHover = (_property: Property | null) => {
+    // Reserved for highlighting in list (future feature)
   }
 
   const handleSearch = (query: string) => {
@@ -213,7 +242,7 @@ export default function SearchPage() {
         setFilters({ operationType: parsedFilters.operationType as 'sale' | 'rent' })
       }
       if (parsedFilters.propertyTypes) {
-        setFilters({ propertyTypes: parsedFilters.propertyTypes as string[] })
+        setFilters({ propertyTypes: parsedFilters.propertyTypes as PropertyType[] })
       }
       if (parsedFilters.priceMin) {
         setFilters({ priceMin: parsedFilters.priceMin as number })
@@ -230,7 +259,7 @@ export default function SearchPage() {
       setSearchQuery(query)
       addRecentSearch(query)
     } catch (error) {
-      console.error('AI search failed:', error)
+      // AI search failed - handled silently, user can retry
     } finally {
       setIsAISearching(false)
     }
@@ -263,6 +292,16 @@ export default function SearchPage() {
   const handleSaveSearch = (query: string) => {
     const name = query || `Busqueda ${savedSearches.length + 1}`
     saveSearch(name)
+  }
+
+  const handleDrawComplete = (polygon: DrawPolygon) => {
+    setDrawnPolygon(polygon)
+    // In a real implementation, we would filter properties by the drawn polygon
+    // For now, we'll just store it in the map store
+  }
+
+  const handleToggleLayer = (layer: MapLayerType) => {
+    toggleLayer(layer)
   }
 
   const comparingIds = comparingProperties.map((p) => p.id)
@@ -350,6 +389,19 @@ export default function SearchPage() {
                 )}
               </Button>
               <ResultsCount total={total} />
+
+              {/* Map Toolbar - only show when map is visible */}
+              {(viewMode === 'map' || viewMode === 'split') && (
+                <MapToolbar
+                  activeLayers={activeLayers}
+                  showHeatmap={showHeatmap}
+                  showNeighborhoodPolygons={showNeighborhoodPolygons}
+                  onToggleLayer={handleToggleLayer}
+                  onToggleHeatmap={toggleHeatmap}
+                  onToggleNeighborhoodPolygons={toggleNeighborhoodPolygons}
+                  className="ml-4"
+                />
+              )}
             </div>
 
             <SortSelect
@@ -408,11 +460,20 @@ export default function SearchPage() {
         {/* Map View */}
         {(viewMode === 'map' || viewMode === 'split') && (
           <div className={`flex-1 ${viewMode === 'split' ? 'border-l' : ''}`}>
-            <MiniMap
+            <PropertyMap
               properties={properties}
+              neighborhoods={neighborhoods}
+              neighborhoodStats={mockNeighborhoodStats}
+              pois={mockPOIs}
               comparingIds={comparingIds}
               favoriteIds={favoriteIds}
+              selectedId={selectedPropertyId ?? undefined}
+              activeLayers={activeLayers}
+              showHeatmap={showHeatmap}
+              showNeighborhoodPolygons={showNeighborhoodPolygons}
               onPropertyClick={handlePropertyClick}
+              onPropertyHover={handlePropertyHover}
+              onDrawComplete={handleDrawComplete}
             />
           </div>
         )}

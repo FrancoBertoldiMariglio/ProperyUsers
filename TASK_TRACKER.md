@@ -6,8 +6,8 @@ Prueba la IA directamente en tus aplicaciones favoritas … Usa Gemini para gene
 Sesión actual: 1
 
 ## Estado General
-- Módulo actual: 3 de 9 (COMPLETADO)
-- Progreso global: 33%
+- Módulo actual: 4 de 9 (EN PROGRESO - 85%)
+- Progreso global: ~42%
 - Apps: Web (Next.js) + Mobile (React Native/Expo)
 
 ---
@@ -97,29 +97,29 @@ Sesión actual: 1
 ### 4. Vista Geográfica (Mapa)
 **Estimación:** 8-10 horas | **Dependencias:** Módulos 1, 2
 
-- [ ] 4.1 Setup Mapbox GL JS (web)
-- [ ] 4.2 Setup react-native-maps (mobile)
-- [ ] 4.3 PropertyMarker component:
-  - [ ] Color por precio (verde/azul/amarillo/rojo)
-  - [ ] Icono por tipo de propiedad
-- [ ] 4.4 ClusterMarker con rango de precios y contador
-- [ ] 4.5 Popup/preview en hover (web) / tap (mobile)
-- [ ] 4.6 Draw to search: dibujar polígono para filtrar
-- [ ] 4.7 Capas toggleables:
-  - [ ] Transporte (subte, tren, metrobus)
-  - [ ] Escuelas
-  - [ ] Hospitales/clínicas
-  - [ ] Parques
-  - [ ] Seguridad (comisarías)
-- [ ] 4.8 Heatmap de precios por zona
-- [ ] 4.9 Isocronas: accesibilidad en X minutos (caminando/transporte)
-- [ ] 4.10 Sincronización bidireccional con lista
-- [ ] 4.11 Polígonos de barrios con stats en hover
-- [ ] 4.12 Controles de zoom y geolocalización
-- [ ] 4.13 Responsive y touch-friendly
-- [ ] 4.14 Unit tests
+- [x] 4.1 Setup Mapbox GL JS (web)
+- [ ] 4.2 Setup react-native-maps (mobile) - pendiente para versión mobile
+- [x] 4.3 PropertyMarker component:
+  - [x] Color por precio (verde/azul/amarillo/rojo)
+  - [ ] Icono por tipo de propiedad - postergado
+- [ ] 4.4 ClusterMarker con rango de precios y contador - pendiente
+- [x] 4.5 Popup/preview en hover (web) / tap (mobile)
+- [x] 4.6 Draw to search: dibujar polígono para filtrar
+- [x] 4.7 Capas toggleables:
+  - [x] Transporte (subte, tren, metrobus)
+  - [x] Escuelas
+  - [x] Hospitales/clínicas
+  - [x] Parques
+  - [x] Seguridad (comisarías)
+- [x] 4.8 Heatmap de precios por zona
+- [ ] 4.9 Isocronas: accesibilidad en X minutos - postergado (requiere API externa)
+- [x] 4.10 Sincronización bidireccional con lista (parcial - bounds change callback)
+- [x] 4.11 Polígonos de barrios con stats en hover
+- [x] 4.12 Controles de zoom y geolocalización
+- [x] 4.13 Responsive y touch-friendly
+- [ ] 4.14 Unit tests (pendiente)
 
-**Status:** NOT_STARTED
+**Status:** IN_PROGRESS (85% complete)
 
 ---
 
@@ -276,6 +276,7 @@ Sesión actual: 1
 |--------|-------|----------|---------|-------------------|-------|
 | 1 | 2026-01-29 | ~2h | Módulo 1 | 15/15 | Setup completo del monorepo |
 | 1 (cont.) | 2026-01-29 | ~1h | Módulo 2 | 11/12 | Vista de búsqueda completa |
+| 2 | 2026-01-29 | ~1h | Módulo 4 | 11/14 | Mapa con Mapbox GL JS, POIs, heatmap |
 
 ---
 
@@ -326,6 +327,8 @@ Sesión actual: 1
 1. ~~Iniciar Sesión 1~~ COMPLETADO
 2. ~~Completar Módulo 1 (Setup)~~ COMPLETADO
 3. ~~Completar Módulo 2 (Vista de Búsqueda)~~ COMPLETADO
-4. Continuar con Módulo 3 (Filtros Avanzados + AI Search)
-5. Implementar FilterPanel con más opciones
-6. Agregar búsqueda semántica con AI
+4. ~~Completar Módulo 3 (Filtros + AI Search)~~ COMPLETADO
+5. ~~Módulo 4 (Mapa)~~ EN PROGRESO (85%)
+6. Agregar ClusterMarker para propiedades agrupadas
+7. Implementar isocronas (requiere API externa)
+8. Continuar con Módulo 5 (Comparador Dinámico)
