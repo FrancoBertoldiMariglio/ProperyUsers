@@ -6,8 +6,8 @@ Prueba la IA directamente en tus aplicaciones favoritas … Usa Gemini para gene
 Sesión actual: 1
 
 ## Estado General
-- Módulo actual: 4 de 9 (EN PROGRESO - 85%)
-- Progreso global: ~42%
+- Módulo actual: 4 de 9 (COMPLETADO)
+- Progreso global: ~44%
 - Apps: Web (Next.js) + Mobile (React Native/Expo)
 
 ---
@@ -98,7 +98,7 @@ Sesión actual: 1
 **Estimación:** 8-10 horas | **Dependencias:** Módulos 1, 2
 
 - [x] 4.1 Setup Mapbox GL JS (web)
-- [ ] 4.2 Setup react-native-maps (mobile) - pendiente para versión mobile
+- [x] 4.2 Setup react-native-maps (mobile)
 - [x] 4.3 PropertyMarker component:
   - [x] Color por precio (verde/azul/amarillo/rojo)
   - [ ] Icono por tipo de propiedad - postergado
@@ -112,14 +112,18 @@ Sesión actual: 1
   - [x] Parques
   - [x] Seguridad (comisarías)
 - [x] 4.8 Heatmap de precios por zona
-- [ ] 4.9 Isocronas: accesibilidad en X minutos - postergado (requiere API externa)
-- [x] 4.10 Sincronización bidireccional con lista (parcial - bounds change callback)
+- [x] 4.9 Isocronas: accesibilidad en X minutos (Mapbox Isochrone API)
+- [x] 4.10 Sincronización bidireccional con lista (bounds change callback)
 - [x] 4.11 Polígonos de barrios con stats en hover
 - [x] 4.12 Controles de zoom y geolocalización
 - [x] 4.13 Responsive y touch-friendly
-- [ ] 4.14 Unit tests (pendiente)
+- [x] 4.14 Unit tests (types, isochrone API, map-store)
 
-**Status:** IN_PROGRESS (92% complete)
+**Mobile Setup:**
+- [x] react-native-maps integration
+- [x] PropertyMap component for mobile
+
+**Status:** COMPLETED
 
 ---
 
@@ -276,7 +280,7 @@ Sesión actual: 1
 |--------|-------|----------|---------|-------------------|-------|
 | 1 | 2026-01-29 | ~2h | Módulo 1 | 15/15 | Setup completo del monorepo |
 | 1 (cont.) | 2026-01-29 | ~1h | Módulo 2 | 11/12 | Vista de búsqueda completa |
-| 2 | 2026-01-29 | ~1h | Módulo 4 | 11/14 | Mapa con Mapbox GL JS, POIs, heatmap |
+| 2 | 2026-01-29 | ~1.5h | Módulo 4 | 14/14 | Mapa completo: Mapbox, POIs, clusters, isocronas, mobile |
 
 ---
 

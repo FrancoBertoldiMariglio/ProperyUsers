@@ -15,6 +15,7 @@ import { MapControls } from './map-controls'
 import { MapLegend } from './map-legend'
 import { PropertyPopup } from './property-popup'
 import { DrawControl } from './draw-control'
+import { IsochroneControl, fetchIsochrone, type TravelMode } from './isochrone-control'
 import type { MapPOI } from './types'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -73,6 +74,9 @@ export function PropertyMap({
   const [isDrawing, setIsDrawing] = useState(false)
   const [drawnPolygon, setDrawnPolygon] = useState<[number, number][]>([])
   const poiMarkers = useRef<Map<string, mapboxgl.Marker>>(new Map())
+  const [isochronePoint, setIsochronePoint] = useState<[number, number] | null>(null)
+  const [isochroneActive, setIsochroneActive] = useState(false)
+  const [isSelectingIsochronePoint, setIsSelectingIsochronePoint] = useState(false)
 
   // Initialize map
   useEffect(() => {
@@ -153,6 +157,41 @@ export function PropertyMap({
             1, 'rgb(255, 0, 0)',
           ],
           'heatmap-opacity': 0.6,
+        },
+        layout: {
+          visibility: 'none',
+        },
+      })
+
+      // Add isochrone source and layer
+      map.current?.addSource('isochrone', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+      })
+
+      map.current?.addLayer({
+        id: 'isochrone-fill',
+        type: 'fill',
+        source: 'isochrone',
+        paint: {
+          'fill-color': '#3b82f6',
+          'fill-opacity': 0.2,
+        },
+        layout: {
+          visibility: 'none',
+        },
+      })
+
+      map.current?.addLayer({
+        id: 'isochrone-outline',
+        type: 'line',
+        source: 'isochrone',
+        paint: {
+          'line-color': '#3b82f6',
+          'line-width': 2,
         },
         layout: {
           visibility: 'none',
@@ -569,6 +608,61 @@ export function PropertyMap({
     setDrawnPolygon([])
   }, [])
 
+  // Isochrone handlers
+  const handleIsochroneActivate = useCallback(async (
+    center: [number, number],
+    minutes: number,
+    mode: TravelMode
+  ) => {
+    if (!map.current || !isMapLoaded) return
+
+    const token = mapboxgl.accessToken
+    const polygon = await fetchIsochrone(center, minutes, mode, token)
+
+    if (polygon) {
+      const source = map.current.getSource('isochrone') as mapboxgl.GeoJSONSource
+      if (source) {
+        source.setData({
+          type: 'FeatureCollection',
+          features: [polygon],
+        })
+      }
+
+      map.current.setLayoutProperty('isochrone-fill', 'visibility', 'visible')
+      map.current.setLayoutProperty('isochrone-outline', 'visibility', 'visible')
+      setIsochroneActive(true)
+      setIsSelectingIsochronePoint(false)
+    }
+  }, [isMapLoaded])
+
+  const handleIsochroneDeactivate = useCallback(() => {
+    if (!map.current) return
+
+    map.current.setLayoutProperty('isochrone-fill', 'visibility', 'none')
+    map.current.setLayoutProperty('isochrone-outline', 'visibility', 'none')
+    setIsochroneActive(false)
+    setIsochronePoint(null)
+  }, [])
+
+  // Handle click for isochrone point selection
+  useEffect(() => {
+    if (!map.current || !isMapLoaded || !isSelectingIsochronePoint) return
+
+    const handleClick = (e: mapboxgl.MapMouseEvent) => {
+      setIsochronePoint([e.lngLat.lng, e.lngLat.lat])
+    }
+
+    map.current.on('click', handleClick)
+    map.current.getCanvas().style.cursor = 'crosshair'
+
+    return () => {
+      map.current?.off('click', handleClick)
+      if (!isDrawing) {
+        map.current?.getCanvas().style.cursor = ''
+      }
+    }
+  }, [isSelectingIsochronePoint, isMapLoaded, isDrawing])
+
   // Register click handler for drawing
   useEffect(() => {
     if (!map.current || !isMapLoaded) return
@@ -620,6 +714,15 @@ export function PropertyMap({
           isFavorite={favoriteIds.includes(hoveredProperty.id)}
         />
       )}
+
+      {/* Isochrone Control */}
+      <IsochroneControl
+        isActive={isochroneActive}
+        onActivate={handleIsochroneActivate}
+        onDeactivate={handleIsochroneDeactivate}
+        selectedPoint={isochronePoint}
+        className="absolute bottom-4 right-4"
+      />
 
       {/* Legend */}
       <MapLegend className="absolute bottom-4 left-4" />
