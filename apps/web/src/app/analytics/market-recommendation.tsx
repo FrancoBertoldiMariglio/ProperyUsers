@@ -23,7 +23,7 @@ interface Analysis {
   }>
 }
 
-function analyzeMarket(stats: NeighborhoodStats, priceHistory: PriceHistoryPoint[]): Analysis {
+function analyzeMarket(stats: NeighborhoodStats, _priceHistory: PriceHistoryPoint[]): Analysis {
   const factors: Analysis['factors'] = []
 
   // Analyze price trend

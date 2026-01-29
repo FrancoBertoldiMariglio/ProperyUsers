@@ -1,6 +1,6 @@
 import type { Property } from '@propery/api-client'
-import type { AIConfig, ChatMessage, AIContext } from './types'
-import { chat } from './providers'
+import type { AIConfig, ChatMessage, AIContext, AIResponse } from './types'
+import { chat, streamChat } from './providers'
 import {
   SYSTEM_PROMPT,
   buildPropertyDescriptionPrompt,
@@ -10,6 +10,8 @@ import {
   buildQuestionsPrompt,
   buildSemanticSearchPrompt,
 } from './prompts'
+
+export { streamChat }
 
 export async function describeProperty(config: AIConfig, property: Property): Promise<string> {
   const messages: ChatMessage[] = [
@@ -101,4 +103,15 @@ export async function freeformChat(
 
   const response = await chat(config, [...systemMessages, ...messages], context)
   return response.content
+}
+
+export async function freeformStreamChat(
+  config: AIConfig,
+  messages: ChatMessage[],
+  context?: AIContext,
+  onChunk?: (chunk: string) => void
+): Promise<AIResponse> {
+  const systemMessages: ChatMessage[] = [{ role: 'system', content: SYSTEM_PROMPT }]
+
+  return streamChat(config, [...systemMessages, ...messages], context, onChunk)
 }

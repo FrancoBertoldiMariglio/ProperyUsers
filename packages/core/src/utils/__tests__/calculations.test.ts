@@ -221,7 +221,7 @@ describe('Calculations', () => {
         })
 
         // Should calculate mortgage on 70% of price in ARS
-        const loanAmount = 150000 * 1100 * 0.7 // $115.5M ARS
+        // loanAmount = 150000 * 1100 * 0.7 = $115.5M ARS
         expect(result.basePayment).toBeGreaterThan(0)
         expect(result.total).toBeGreaterThan(result.basePayment)
       })

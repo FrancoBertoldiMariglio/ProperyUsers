@@ -22,7 +22,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts'
-import { X, Plus, TrendingUp, TrendingDown } from 'lucide-react'
+import { X, TrendingUp, TrendingDown } from 'lucide-react'
 
 interface NeighborhoodCompareProps {
   neighborhoods: Neighborhood[]
