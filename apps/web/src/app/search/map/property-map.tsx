@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from 'react'
 import mapboxgl from 'mapbox-gl'
+import Supercluster from 'supercluster'
 import type { Property, Neighborhood, NeighborhoodStats } from '@propery/api-client'
 import {
   type MapViewState,
@@ -60,6 +61,7 @@ export function PropertyMap({
   const mapContainer = useRef<HTMLDivElement>(null)
   const map = useRef<mapboxgl.Map | null>(null)
   const markers = useRef<Map<string, mapboxgl.Marker>>(new Map())
+  const clusterIndex = useRef<Supercluster | null>(null)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
   // Track view state for potential sync with list
   const [_viewState, setViewState] = useState<MapViewState>({
@@ -195,62 +197,156 @@ export function PropertyMap({
     }
   }, [onBoundsChange])
 
-  // Update markers when properties change
+  // Initialize cluster index when properties change
   useEffect(() => {
-    if (!map.current || !isMapLoaded) return
+    if (properties.length === 0) {
+      clusterIndex.current = null
+      return
+    }
+
+    // Create GeoJSON points from properties
+    const points = properties.map((property) => ({
+      type: 'Feature' as const,
+      properties: {
+        id: property.id,
+        price: property.price,
+        priceCategory: property.prediction?.priceCategory || 'fair',
+      },
+      geometry: {
+        type: 'Point' as const,
+        coordinates: [property.location.lng, property.location.lat],
+      },
+    }))
+
+    // Initialize Supercluster
+    clusterIndex.current = new Supercluster({
+      radius: 60,
+      maxZoom: 16,
+      minPoints: 3,
+    })
+    clusterIndex.current.load(points)
+  }, [properties])
+
+  // Function to render markers based on current zoom
+  const renderMarkers = useCallback(() => {
+    if (!map.current || !isMapLoaded || !clusterIndex.current) return
 
     // Remove old markers
     markers.current.forEach((marker) => marker.remove())
     markers.current.clear()
 
-    // Add new markers
-    properties.forEach((property) => {
-      const { lat, lng } = property.location
+    const bounds = map.current.getBounds()
+    const zoom = Math.floor(map.current.getZoom())
 
-      // Determine marker color based on price prediction
-      const priceCategory = property.prediction?.priceCategory || 'fair'
-      const color = PRICE_COLORS[priceCategory as keyof typeof PRICE_COLORS]
+    // Get clusters for current view
+    const clusters = clusterIndex.current.getClusters(
+      [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()],
+      zoom
+    )
 
-      // Create marker element using safe DOM methods
-      const el = createMarkerElement({
-        price: property.price,
-        color,
-        isSelected: selectedId === property.id,
-        isComparing: comparingIds.includes(property.id),
-        isFavorite: favoriteIds.includes(property.id),
-      })
+    clusters.forEach((cluster) => {
+      const [lng, lat] = cluster.geometry.coordinates
+      const isCluster = cluster.properties.cluster
 
-      // Create marker
-      const marker = new mapboxgl.Marker({
-        element: el,
-        anchor: 'bottom',
-      })
-        .setLngLat([lng, lat])
-        .addTo(map.current!)
+      if (isCluster) {
+        // Render cluster marker
+        const count = cluster.properties.point_count
+        const clusterId = cluster.properties.cluster_id
 
-      // Event handlers
-      el.addEventListener('mouseenter', () => {
-        setHoveredProperty(property)
-        const point = map.current?.project([lng, lat])
-        if (point) {
-          setPopupPosition({ x: point.x, y: point.y })
-        }
-        onPropertyHover?.(property)
-      })
+        // Get all properties in cluster to calculate price range
+        const leaves = clusterIndex.current!.getLeaves(clusterId, Infinity)
+        const prices = leaves.map((l) => l.properties.price)
+        const minPrice = Math.min(...prices)
+        const maxPrice = Math.max(...prices)
 
-      el.addEventListener('mouseleave', () => {
-        setHoveredProperty(null)
-        setPopupPosition(null)
-        onPropertyHover?.(null)
-      })
+        const el = createClusterMarkerElement({
+          count,
+          minPrice,
+          maxPrice,
+        })
 
-      el.addEventListener('click', () => {
-        onPropertyClick?.(property)
-      })
+        const marker = new mapboxgl.Marker({
+          element: el,
+          anchor: 'center',
+        })
+          .setLngLat([lng, lat])
+          .addTo(map.current!)
 
-      markers.current.set(property.id, marker)
+        // Click to zoom in
+        el.addEventListener('click', () => {
+          const expansionZoom = clusterIndex.current!.getClusterExpansionZoom(clusterId)
+          map.current?.flyTo({
+            center: [lng, lat],
+            zoom: Math.min(expansionZoom, 18),
+          })
+        })
+
+        markers.current.set(`cluster-${clusterId}`, marker)
+      } else {
+        // Render individual property marker
+        const propertyId = cluster.properties.id
+        const property = properties.find((p) => p.id === propertyId)
+        if (!property) return
+
+        const priceCategory = cluster.properties.priceCategory
+        const color = PRICE_COLORS[priceCategory as keyof typeof PRICE_COLORS]
+
+        const el = createMarkerElement({
+          price: property.price,
+          color,
+          isSelected: selectedId === property.id,
+          isComparing: comparingIds.includes(property.id),
+          isFavorite: favoriteIds.includes(property.id),
+        })
+
+        const marker = new mapboxgl.Marker({
+          element: el,
+          anchor: 'bottom',
+        })
+          .setLngLat([lng, lat])
+          .addTo(map.current!)
+
+        // Event handlers
+        el.addEventListener('mouseenter', () => {
+          setHoveredProperty(property)
+          const point = map.current?.project([lng, lat])
+          if (point) {
+            setPopupPosition({ x: point.x, y: point.y })
+          }
+          onPropertyHover?.(property)
+        })
+
+        el.addEventListener('mouseleave', () => {
+          setHoveredProperty(null)
+          setPopupPosition(null)
+          onPropertyHover?.(null)
+        })
+
+        el.addEventListener('click', () => {
+          onPropertyClick?.(property)
+        })
+
+        markers.current.set(propertyId, marker)
+      }
     })
   }, [properties, selectedId, comparingIds, favoriteIds, isMapLoaded, onPropertyClick, onPropertyHover])
+
+  // Update markers on zoom/move and when properties change
+  useEffect(() => {
+    if (!map.current || !isMapLoaded) return
+
+    renderMarkers()
+
+    // Re-render on zoom/move
+    const handleMoveEnd = () => renderMarkers()
+    map.current.on('moveend', handleMoveEnd)
+    map.current.on('zoomend', handleMoveEnd)
+
+    return () => {
+      map.current?.off('moveend', handleMoveEnd)
+      map.current?.off('zoomend', handleMoveEnd)
+    }
+  }, [renderMarkers, isMapLoaded])
 
   // Update neighborhood polygons
   useEffect(() => {
@@ -575,5 +671,63 @@ function createMarkerElement({
   innerEl.textContent = `$${formattedPrice}`
 
   el.appendChild(innerEl)
+  return el
+}
+
+// Helper function to create cluster marker element
+function createClusterMarkerElement({
+  count,
+  minPrice,
+  maxPrice,
+}: {
+  count: number
+  minPrice: number
+  maxPrice: number
+}): HTMLDivElement {
+  const formatPrice = (price: number) =>
+    price >= 1000000 ? `${(price / 1000000).toFixed(1)}M` : `${Math.round(price / 1000)}k`
+
+  const el = document.createElement('div')
+  el.className = 'cluster-marker'
+
+  const inner = document.createElement('div')
+  inner.style.background = 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)'
+  inner.style.color = 'white'
+  inner.style.width = '48px'
+  inner.style.height = '48px'
+  inner.style.borderRadius = '50%'
+  inner.style.display = 'flex'
+  inner.style.flexDirection = 'column'
+  inner.style.alignItems = 'center'
+  inner.style.justifyContent = 'center'
+  inner.style.cursor = 'pointer'
+  inner.style.border = '3px solid white'
+  inner.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)'
+  inner.style.transition = 'transform 0.2s'
+
+  const countEl = document.createElement('span')
+  countEl.style.fontSize = '14px'
+  countEl.style.fontWeight = '700'
+  countEl.style.lineHeight = '1'
+  countEl.textContent = count.toString()
+  inner.appendChild(countEl)
+
+  const priceEl = document.createElement('span')
+  priceEl.style.fontSize = '9px'
+  priceEl.style.opacity = '0.9'
+  priceEl.style.lineHeight = '1'
+  priceEl.style.marginTop = '2px'
+  priceEl.textContent = `$${formatPrice(minPrice)}-${formatPrice(maxPrice)}`
+  inner.appendChild(priceEl)
+
+  // Hover effect
+  inner.addEventListener('mouseenter', () => {
+    inner.style.transform = 'scale(1.1)'
+  })
+  inner.addEventListener('mouseleave', () => {
+    inner.style.transform = 'scale(1)'
+  })
+
+  el.appendChild(inner)
   return el
 }

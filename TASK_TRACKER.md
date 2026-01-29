@@ -102,7 +102,7 @@ Sesión actual: 1
 - [x] 4.3 PropertyMarker component:
   - [x] Color por precio (verde/azul/amarillo/rojo)
   - [ ] Icono por tipo de propiedad - postergado
-- [ ] 4.4 ClusterMarker con rango de precios y contador - pendiente
+- [x] 4.4 ClusterMarker con rango de precios y contador
 - [x] 4.5 Popup/preview en hover (web) / tap (mobile)
 - [x] 4.6 Draw to search: dibujar polígono para filtrar
 - [x] 4.7 Capas toggleables:
@@ -119,7 +119,7 @@ Sesión actual: 1
 - [x] 4.13 Responsive y touch-friendly
 - [ ] 4.14 Unit tests (pendiente)
 
-**Status:** IN_PROGRESS (85% complete)
+**Status:** IN_PROGRESS (92% complete)
 
 ---
 
