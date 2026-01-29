@@ -286,6 +286,7 @@ Sesión actual: 1
 | 5 | 2026-01-29 | ~1.5h | Módulo 7 | 13/15 | AI Assistant: chat panel, streaming, voice input, context awareness |
 | 5 (cont.) | 2026-01-29 | ~1h | Módulo 8 | 8/11 | Preferences: onboarding wizard, profile page, favorites, notifications |
 | 5 (cont.) | 2026-01-29 | ~1h | Módulo 9 | 7/11 | Finance: mortgage calculator, closing costs, rent vs buy, lenders list |
+| 6 | 2026-01-29 | ~1h | Extras | +3 features | Property detail page, 120 unit tests, mobile pages (profile/onboarding/finance) |
 
 ---
 
@@ -344,7 +345,13 @@ Sesión actual: 1
 9. ~~Módulo 8 (Preferencias + Notificaciones)~~ COMPLETADO
 10. ~~Módulo 9 (Calculadora Financiera)~~ COMPLETADO
 
-## PROYECTO COMPLETADO
+## PROYECTO COMPLETADO ✅
+
+### Final session additions:
+- ✅ Property detail page `/property/[id]` with mortgage calculator integration
+- ✅ Unit tests for modules 7, 8, 9 (120 tests passing)
+- ✅ Mobile app pages: profile, onboarding, finance
+- ✅ Fixed infinite recursion bug in rent-vs-buy calculation
 
 ### Items opcionales/diferidos:
 - Expo Speech (mobile voice input)
@@ -352,6 +359,4 @@ Sesión actual: 1
 - Expo Notifications (mobile push)
 - Heatmap hab/baños/precio
 - Victory charts para mobile
-- Unit tests para módulos 7, 8, 9
 - Formulario de pre-calificación
-- Property detail page con cuota estimada

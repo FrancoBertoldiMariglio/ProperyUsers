@@ -41,6 +41,9 @@ importers:
       '@propery/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@react-native-community/slider':
+        specifier: ^4.5.5
+        version: 4.5.7
       '@tanstack/react-query':
         specifier: ^5.62.0
         version: 5.90.20(react@18.3.1)
@@ -3162,6 +3165,10 @@ packages:
     dependencies:
       '@types/react': 19.2.10
       react: 19.2.4
+    dev: false
+
+  /@react-native-community/slider@4.5.7:
+    resolution: {integrity: sha512-WMDDZjNF2Bd8M8TrSqKf5xhM9ikdfCHtSPur64Ow3bB/OVrKufUQZ59NmYdNZNeGPvcHHTsafuYTY8zfZfbchQ==}
     dev: false
 
   /@react-native/assets-registry@0.76.5:

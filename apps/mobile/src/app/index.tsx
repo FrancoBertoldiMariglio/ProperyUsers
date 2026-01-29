@@ -1,8 +1,20 @@
 import { View, Text, Pressable } from 'react-native'
-import { Link } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { usePreferencesStore } from '@propery/core'
+import { useEffect } from 'react'
 
 export default function HomeScreen() {
+  const router = useRouter()
+  const { preferences } = usePreferencesStore()
+
+  // Redirect to onboarding if not completed
+  useEffect(() => {
+    if (!preferences.completedOnboarding) {
+      router.replace('/onboarding')
+    }
+  }, [preferences.completedOnboarding, router])
+
   return (
     <SafeAreaView className="flex-1 bg-background">
       <View className="flex-1 items-center justify-center px-6">
@@ -10,18 +22,32 @@ export default function HomeScreen() {
         <Text className="mt-4 text-center text-lg text-muted-foreground">
           Encuentra tu propiedad ideal en Buenos Aires con inteligencia artificial
         </Text>
-        <View className="mt-10 gap-4">
+        <View className="mt-10 w-full gap-3">
           <Link href="/search" asChild>
-            <Pressable className="rounded-lg bg-primary px-6 py-3">
+            <Pressable className="rounded-lg bg-primary px-6 py-4">
               <Text className="text-center font-semibold text-primary-foreground">
-                Comenzar a buscar
+                🔍 Buscar propiedades
               </Text>
             </Pressable>
           </Link>
-          <Link href="/about" asChild>
-            <Pressable className="rounded-lg bg-secondary px-6 py-3">
+          <Link href="/compare" asChild>
+            <Pressable className="rounded-lg bg-secondary px-6 py-4">
               <Text className="text-center font-semibold text-secondary-foreground">
-                Conocer mas
+                ⚖️ Comparar propiedades
+              </Text>
+            </Pressable>
+          </Link>
+          <Link href="/finance" asChild>
+            <Pressable className="rounded-lg border border-border bg-card px-6 py-4">
+              <Text className="text-center font-semibold text-foreground">
+                💰 Calculadoras financieras
+              </Text>
+            </Pressable>
+          </Link>
+          <Link href="/profile" asChild>
+            <Pressable className="rounded-lg border border-border bg-card px-6 py-4">
+              <Text className="text-center font-semibold text-foreground">
+                👤 Mi perfil
               </Text>
             </Pressable>
           </Link>

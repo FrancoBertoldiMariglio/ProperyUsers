@@ -558,13 +558,37 @@ function analyzeRentVsBuySimple(
   mortgageTermYears: number,
   years: number
 ): { buyIsCheaper: boolean } {
-  const analysis = analyzeRentVsBuy(
-    monthlyRent,
-    propertyPrice,
-    downPaymentPercent,
-    mortgageRate,
-    mortgageTermYears,
-    years
-  )
-  return { buyIsCheaper: analysis.buyScenario.totalCost < analysis.rentScenario.totalCost }
+  // Simplified calculation without recursion
+  const downPayment = propertyPrice * (downPaymentPercent / 100)
+  const loanAmount = propertyPrice - downPayment
+  const termMonths = mortgageTermYears * 12
+
+  // Rent cost
+  let totalRentPaid = 0
+  let currentRent = monthlyRent
+  for (let year = 1; year <= years; year++) {
+    totalRentPaid += currentRent * 12
+    currentRent *= 1.05 // 5% annual increase
+  }
+  const opportunityCost = downPayment * (Math.pow(1.07, years) - 1)
+  const rentTotalCost = totalRentPaid - opportunityCost
+
+  // Buy cost
+  const monthlyRate = mortgageRate / 100 / 12
+  const mortgagePayment =
+    monthlyRate === 0
+      ? loanAmount / termMonths
+      : (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, termMonths)) /
+        (Math.pow(1 + monthlyRate, termMonths) - 1)
+
+  const yearsOfPayments = Math.min(years, mortgageTermYears)
+  const totalMortgagePayments = mortgagePayment * yearsOfPayments * 12
+  const closingCosts = propertyPrice * 0.1
+  const maintenanceCosts = propertyPrice * 0.01 * years
+  const appreciation = propertyPrice * (Math.pow(1.03, years) - 1)
+
+  const buyTotalCost =
+    downPayment + totalMortgagePayments + closingCosts + maintenanceCosts - appreciation
+
+  return { buyIsCheaper: buyTotalCost < rentTotalCost }
 }
