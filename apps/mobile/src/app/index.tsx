@@ -1,19 +1,15 @@
 import { View, Text, Pressable } from 'react-native'
-import { Link, useRouter } from 'expo-router'
+import { Link, Redirect } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { usePreferencesStore } from '@propery/core'
-import { useEffect } from 'react'
 
 export default function HomeScreen() {
-  const router = useRouter()
   const { preferences } = usePreferencesStore()
 
   // Redirect to onboarding if not completed
-  useEffect(() => {
-    if (!preferences.completedOnboarding) {
-      router.replace('/onboarding')
-    }
-  }, [preferences.completedOnboarding, router])
+  if (!preferences.completedOnboarding) {
+    return <Redirect href="/onboarding" />
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-background">
