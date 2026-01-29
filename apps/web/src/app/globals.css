@@ -1,0 +1,77 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Colors - Design Tokens */
+  --color-background: oklch(100% 0 0);
+  --color-foreground: oklch(14.5% 0 0);
+  --color-muted: oklch(96.1% 0 0);
+  --color-muted-foreground: oklch(45.2% 0 0);
+  --color-popover: oklch(100% 0 0);
+  --color-popover-foreground: oklch(14.5% 0 0);
+  --color-card: oklch(100% 0 0);
+  --color-card-foreground: oklch(14.5% 0 0);
+  --color-border: oklch(91.4% 0 0);
+  --color-input: oklch(91.4% 0 0);
+  --color-primary: oklch(47.5% 0.15 250);
+  --color-primary-foreground: oklch(98.5% 0 0);
+  --color-secondary: oklch(96.1% 0 0);
+  --color-secondary-foreground: oklch(14.5% 0 0);
+  --color-accent: oklch(96.1% 0 0);
+  --color-accent-foreground: oklch(14.5% 0 0);
+  --color-destructive: oklch(57.7% 0.22 27);
+  --color-destructive-foreground: oklch(98.5% 0 0);
+  --color-ring: oklch(47.5% 0.15 250);
+
+  /* Property-specific colors */
+  --color-opportunity: oklch(70% 0.18 145);
+  --color-fair: oklch(70% 0.15 250);
+  --color-expensive: oklch(70% 0.18 85);
+  --color-overpriced: oklch(65% 0.22 27);
+
+  /* Border radius */
+  --radius-lg: 0.5rem;
+  --radius-md: calc(var(--radius-lg) - 2px);
+  --radius-sm: calc(var(--radius-lg) - 4px);
+
+  /* Font families */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-background: oklch(14.5% 0 0);
+    --color-foreground: oklch(98.5% 0 0);
+    --color-muted: oklch(21.4% 0 0);
+    --color-muted-foreground: oklch(71.6% 0 0);
+    --color-popover: oklch(14.5% 0 0);
+    --color-popover-foreground: oklch(98.5% 0 0);
+    --color-card: oklch(14.5% 0 0);
+    --color-card-foreground: oklch(98.5% 0 0);
+    --color-border: oklch(21.4% 0 0);
+    --color-input: oklch(21.4% 0 0);
+    --color-primary: oklch(60% 0.15 250);
+    --color-primary-foreground: oklch(14.5% 0 0);
+    --color-secondary: oklch(21.4% 0 0);
+    --color-secondary-foreground: oklch(98.5% 0 0);
+    --color-accent: oklch(21.4% 0 0);
+    --color-accent-foreground: oklch(98.5% 0 0);
+    --color-destructive: oklch(50% 0.22 27);
+    --color-destructive-foreground: oklch(98.5% 0 0);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}

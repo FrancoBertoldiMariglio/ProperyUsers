@@ -3,11 +3,11 @@ Prueba la IA directamente en tus aplicaciones favoritas … Usa Gemini para gene
 **Aplicación para Usuarios Finales (Web + Mobile)**
 
 Última actualización: 2026-01-29
-Sesión actual: 0 (Pre-desarrollo)
+Sesión actual: 1
 
 ## Estado General
-- Módulo actual: 0 de 9
-- Progreso global: 0%
+- Módulo actual: 1 de 9 (COMPLETADO)
+- Progreso global: 11%
 - Apps: Web (Next.js) + Mobile (React Native/Expo)
 
 ---
@@ -17,23 +17,23 @@ Sesión actual: 0 (Pre-desarrollo)
 ### 1. Setup Proyecto + Design System
 **Estimación:** 4-6 horas | **Dependencias:** Ninguna
 
-- [ ] 1.1 Inicializar monorepo con Turborepo + pnpm
-- [ ] 1.2 Configurar Next.js 15 (App Router) - apps/web
-- [ ] 1.3 Configurar Expo SDK 52 + Expo Router - apps/mobile
-- [ ] 1.4 Setup package: `@propery/ui` (componentes compartidos)
-- [ ] 1.5 Setup package: `@propery/core` (hooks, stores, utils)
-- [ ] 1.6 Setup package: `@propery/api-client` (types + mocks)
-- [ ] 1.7 Setup package: `@propery/ai` (integración AI)
-- [ ] 1.8 Setup package: `@propery/config` (ESLint, TS, Tailwind)
-- [ ] 1.9 Configurar Tailwind v4 + shadcn/ui (web)
-- [ ] 1.10 Configurar NativeWind (mobile)
-- [ ] 1.11 Crear Design Tokens (colores, spacing, typography)
-- [ ] 1.12 Crear componentes primitivos: Button, Input, Card, Badge, Modal
-- [ ] 1.13 Configurar ESLint + Prettier + husky
-- [ ] 1.14 Setup GitHub Actions (lint, typecheck, test, build)
-- [ ] 1.15 README con instrucciones de desarrollo
+- [x] 1.1 Inicializar monorepo con Turborepo + pnpm
+- [x] 1.2 Configurar Next.js 15 (App Router) - apps/web
+- [x] 1.3 Configurar Expo SDK 52 + Expo Router - apps/mobile
+- [x] 1.4 Setup package: `@propery/ui` (componentes compartidos)
+- [x] 1.5 Setup package: `@propery/core` (hooks, stores, utils)
+- [x] 1.6 Setup package: `@propery/api-client` (types + mocks)
+- [x] 1.7 Setup package: `@propery/ai` (integración AI)
+- [x] 1.8 Setup package: `@propery/config` (ESLint, TS, Tailwind)
+- [x] 1.9 Configurar Tailwind v4 + shadcn/ui (web)
+- [x] 1.10 Configurar NativeWind (mobile)
+- [x] 1.11 Crear Design Tokens (colores, spacing, typography)
+- [x] 1.12 Crear componentes primitivos: Button, Input, Card, Badge, Modal
+- [x] 1.13 Configurar ESLint + Prettier + husky
+- [x] 1.14 Setup GitHub Actions (lint, typecheck, test, build)
+- [x] 1.15 README con instrucciones de desarrollo
 
-**Status:** NOT_STARTED
+**Status:** COMPLETED
 
 ---
 
@@ -274,20 +274,32 @@ Sesión actual: 0 (Pre-desarrollo)
 
 | Sesión | Fecha | Duración | Módulos | Tareas Completadas | Notas |
 |--------|-------|----------|---------|-------------------|-------|
-| 1 | - | - | - | - | Pendiente inicio |
+| 1 | 2026-01-29 | ~2h | Módulo 1 | 15/15 | Setup completo del monorepo |
 
 ---
 
 ## Notas Técnicas
 
 ### Decisiones de Arquitectura
-- (Por completar durante desarrollo)
+- Monorepo con Turborepo + pnpm workspaces
+- Componentes UI separados para web (Radix/shadcn) y native (React Native)
+- Tailwind CSS v4 para web con @theme para tokens
+- NativeWind para mobile manteniendo consistencia de estilos
+- AI provider agnóstico con mock provider para desarrollo
+- Zustand para estado global con persistencia
+- TanStack Query para server state
 
 ### Problemas Encontrados
-- (Por completar durante desarrollo)
+- (Ninguno hasta el momento)
 
-### Dependencias Instaladas
-- (Por completar durante desarrollo)
+### Dependencias Principales
+- turbo: ^2.3.3
+- next: ^15.1.0
+- react: ^19.0.0
+- expo: ~52.0.0
+- tailwindcss: ^4.0.0
+- zustand: ^5.0.2
+- @tanstack/react-query: ^5.62.0
 
 ---
 
@@ -308,6 +320,8 @@ Sesión actual: 0 (Pre-desarrollo)
 ---
 
 ## Próximos Pasos
-1. Iniciar Sesión 1
-2. Completar Módulo 1 (Setup)
-3. Continuar con Módulo 2 (Búsqueda)
+1. ~~Iniciar Sesión 1~~ COMPLETADO
+2. ~~Completar Módulo 1 (Setup)~~ COMPLETADO
+3. Continuar con Módulo 2 (Vista de Búsqueda de Propiedades)
+4. Implementar PropertyCard y PropertyList components
+5. Crear página de búsqueda con filtros básicos
